@@ -1,0 +1,39 @@
+<!-- views/index.ejs -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tareas</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav>
+        <h1>Lista de tareas</h1>
+        <a href="/gestion">Gestión de tareas</a>
+    </nav>
+
+    <ul>
+        <% tareas.forEach(tarea => { %>
+            <li>
+                <h2 class=""><%= tarea.titulo %></h2>
+                <p class="space d"><%= tarea.descripcion %></p>
+                <p class="space v">Fecha de vencimiento:<span class="venci"> <%= tarea.fecha_vencimiento %></span></p>
+                <p class="space">Estado: <%= tarea.estado %></p>
+
+                <!-- Formulario para cambiar el estado -->
+                <% if (tarea.estado === 'pendiente') { %>
+                   <!-- views/index.ejs -->
+                        <form action="/tareas/cambiar-estado/<%= tarea.id %>" method="POST" class="form">
+                            <select name="estado" class="estado">
+                                <option value="en progreso">En Progreso</option>
+                                <option value="completada">Completada</option>
+                            </select>
+                            <button type="submit" class="estadoBtn">Cambiar Estado</button>
+                        </form>
+                <% } %>
+            </li>
+        <% }) %>
+    </ul>
+</body>
+</html>

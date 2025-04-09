@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Tareas</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav>
+        <h1>Gestión de Tareas</h1>
+        <a href="/">Lista de tareas</a>
+    </nav>
+
+    <!-- Formulario para agregar tareas -->
+     <div class="formCrear">
+         <h2>Agregar Tarea</h2>
+         <form action="/tareas" method="POST">
+             <input type="text" name="titulo" placeholder="Título" required>
+             <textarea name="descripcion" placeholder="Descripción"></textarea>
+             <input type="date" name="fecha_vencimiento" required>
+             <br><select name="estado" class="estado es">
+                 <option value="pendiente">Pendiente</option>
+                 <option value="en progreso">En Progreso</option>
+                 <option value="completada">Completada</option>
+             </select>
+             <input type="hidden" name="clave" value="12345678">
+             <button class="estadoBtn agre" type="submit">Agregar Tarea</button>
+         </form>
+     </div>
+
+    <!-- Lista de tareas con opciones de editar y eliminar -->
+    <h2>Lista de Tareas</h2>
+    <ul>
+        <% tareas.forEach(tarea => { %>
+            <li>
+                <h2><%= tarea.titulo %></h2>
+                <p class="space"><%= tarea.descripcion %></p>
+                <p class="space v">Fecha de vencimiento:<span class="venci"><%= tarea.fecha_vencimiento %></span> </p>
+                <p class="space">Estado: <%= tarea.estado %></p>
+                
+
+                <!-- Formulario para editar la tarea -->
+                <form action="/tareas/editar/<%= tarea.id %>?clave=12345678" method="POST">
+                    <textarea class="upd" name="descripcion"><%= tarea.descripcion %></textarea>
+                    <input class="upd vu" type="date" name="fecha_vencimiento venci" value="<%= tarea.fecha_vencimiento %>" required>
+                    <input class="upd" type="hidden" name="clave" value="12345678">
+                    <button class="estadoBtn gu"  type="submit">Guardar Cambios</button>
+                </form>
+
+                <!-- Formulario para eliminar la tarea -->
+                <form action="/tareas/eliminar/<%= tarea.id %>?clave=12345678" method="POST" style="display:inline;">
+                    <input type="hidden" name="clave" value="12345678">
+                    <button class="estadoBtn bo" type="submit">Eliminar</button>
+                </form>
+            </li>
+        <% }) %>
+    </ul>
+</body>
+</html>
